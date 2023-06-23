@@ -1,3 +1,8 @@
+# This file is the map/level's data format, and can be directly edited for user created levels
+# This file works off a 16*16 grid but the mainframe files can be altered to allow for many different scales
+# 0 represents air
+# 1 represents a wall
+# 2 represents the ground
 world_data = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
