@@ -1,8 +1,12 @@
 # Init
 import pygame
 from pygame.locals import *
-pygame.init()
 import mapdata
+
+pygame.init()
+clock = pygame.time.Clock()
+fps = 60
+
 
 # Disp def
 screen_width = 800
@@ -20,32 +24,75 @@ moon_img = pygame.image.load('ASSESSMENTS/Y9T2 Attempt 2/Assets/moon.png')
 # Init player class
 class Player():
     def __init__(self, x, y) -> None:
-        img = pygame.image.load('ASSESSMENTS/Y9T2 Attempt 2/Assets/spriteforward.png')
-        self.image = pygame.transform.scale(img, (40, 80))
+        self.images_left = []
+        self.images_fwd = []
+        self.images_right = []
+        self.images_back = []
+        self.index = 0
+        self.counter = 0
+       
+        # Left
+        for num in range(4, 8):
+            img_left = pygame.image.load(f'ASSESSMENTS/Y9T2 Attempt 2/Assets/sprite/{num}.png')
+            img_left = pygame.transform.scale(img_left, (40, 80))
+            self.images_left.append(img_left)
+        
+        # Fwd
+        for num in range(0, 4):
+            img_fwd = pygame.image.load(f'ASSESSMENTS/Y9T2 Attempt 2/Assets/sprite/{num}.png')
+            img_fwd = pygame.transform.scale(img_fwd, (40, 80))
+            self.images_fwd.append(img_fwd)
+        
+        # Right
+        for num in range(8, 12):
+            img_right = pygame.image.load(f'ASSESSMENTS/Y9T2 Attempt 2/Assets/sprite/{num}.png')
+            img_right = pygame.transform.scale(img_right, (40, 80))
+            self.images_right.append(img_right)
+       
+        # Back
+        for num in range(12, 16):
+            img_back = pygame.image.load(f'ASSESSMENTS/Y9T2 Attempt 2/Assets/sprite/{num}.png')
+            img_back = pygame.transform.scale(img_back, (40, 80))
+            self.images_back.append(img_back)
+        
+        self.image = self.images_left[self.index]
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
         self.vel_y = 0
         self.jumping = False
         
-    def update(self):
+    def update(self): 
         dx = 0
         dy = 0
+        walk_cooldown = 20
+        
+        # Animations
+        if self.counter > walk_cooldown:
+            self.counter = 0
+            self.index += 1
+            if self.index >= len(self.images_left):
+                self.index = 0 
+            self.image = self.images_left[self.index]
         
         key = pygame.key.get_pressed()
-        # Up
+        
         # Up
         if (key[pygame.K_SPACE] or key[pygame.K_UP] or key[pygame.K_w]) and self.jumping == False:
             self.vel_y = -12
             self.jumping = True
         if not key[pygame.K_SPACE] and not key[pygame.K_UP] and not key[pygame.K_w]:
             self.jumping = False
+        
         # Left
         if key[pygame.K_LEFT] or key[pygame.K_a]:
             dx -= 5
+            self.counter += 1
+        
         # Right
         if key[pygame.K_RIGHT] or key[pygame.K_d]:
             dx += 5
+            self.counter += 1 
             
         self.vel_y += 0.3
         if self.vel_y > 10:
@@ -83,6 +130,7 @@ class World():
                     img_rect.y = row_count * tile_size
                     tile = (img, img_rect)
                     self.tile_list.append(tile)
+               
                 if tile == 2:
                     img = pygame.transform.scale(grass, (tile_size, tile_size))
                     img_rect = img.get_rect()
@@ -104,6 +152,9 @@ player = Player(100, screen_height - 130)
 # Game loop
 run = True
 while run: 
+    
+    clock.tick(fps)
+    
     screen.blit(bg_img, (0, 0))
     screen.blit(moon_img, (100, 100))
     
