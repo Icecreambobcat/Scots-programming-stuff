@@ -11,7 +11,7 @@ screen_height = 800
 # Def game meta
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Rex\'s Platformer game')
-tile_size = 80
+tile_size = 50
 
 # Img load
 bg_img = pygame.image.load('ASSESSMENTS/Y9T2 Attempt 2/Assets/BG.jpg')
@@ -22,14 +22,23 @@ class World():
     def __init__(self, data) -> None:
         self.tile_list = []
         # Tile images
-        ground = pygame.image.load('ASSESSMENTS/Y9T2 Attempt 2/Assets/platformerGraphicsDeluxe_Updated/Tiles/stone.png')
+        wall = pygame.image.load('ASSESSMENTS/Y9T2 Attempt 2/Assets/platformerGraphicsDeluxe_Updated/Tiles/stoneCenter.png')
+        grass = pygame.image.load('ASSESSMENTS/Y9T2 Attempt 2/Assets/platformerGraphicsDeluxe_Updated/Tiles/stoneMid.png')
         
+    
         row_count = 0
         for row in data:
             col_count = 0
             for tile in row:
                 if tile == 1:
-                    img = pygame.transform.scale(ground, (tile_size, tile_size))
+                    img = pygame.transform.scale(wall, (tile_size, tile_size))
+                    img_rect = img.get_rect()
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+                    tile = (img, img_rect)
+                    self.tile_list.append(tile)
+                if tile == 2:
+                    img = pygame.transform.scale(grass, (tile_size, tile_size))
                     img_rect = img.get_rect()
                     img_rect.x = col_count * tile_size
                     img_rect.y = row_count * tile_size
