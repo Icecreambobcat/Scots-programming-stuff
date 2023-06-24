@@ -1,3 +1,5 @@
+# UNUSED DATASETS - fwd & back animations
+
 # Init
 import pygame
 from pygame.locals import *
@@ -61,19 +63,12 @@ class Player():
         self.rect.y = y
         self.vel_y = 0
         self.jumping = False
+        self.direction = 0
         
     def update(self): 
         dx = 0
         dy = 0
-        walk_cooldown = 20
-        
-        # Animations
-        if self.counter > walk_cooldown:
-            self.counter = 0
-            self.index += 1
-            if self.index >= len(self.images_left):
-                self.index = 0 
-            self.image = self.images_left[self.index]
+        walk_cooldown = 5
         
         key = pygame.key.get_pressed()
         
@@ -88,16 +83,38 @@ class Player():
         if key[pygame.K_LEFT] or key[pygame.K_a]:
             dx -= 5
             self.counter += 1
+            self.direction = -1
         
         # Right
         if key[pygame.K_RIGHT] or key[pygame.K_d]:
             dx += 5
-            self.counter += 1 
+            self.counter += 1
+            self.direction = 1
             
+        if not (key[pygame.K_LEFT] or key[pygame.K_a]) and not (key[pygame.K_RIGHT] or key[pygame.K_d]):
+            self.counter = 0
+            self.index = 0
+            if self.direction == 1:
+                self.image = self.images_right[self.index]
+            if self.direction == -1:
+                self.image = self.images_left[self.index]
+            
+        # Gravity
         self.vel_y += 0.3
         if self.vel_y > 10:
             self.vel_y = 10
-        dy += self.vel_y
+        dy += self.vel_y 
+        
+        # Animations
+        if self.counter > walk_cooldown:
+            self.counter = 0
+            self.index += 1
+            if self.index >= len(self.images_left):
+                self.index = 0
+            if self.direction == 1:
+                self.image = self.images_right[self.index]
+            if self.direction == -1:
+                self.image = self.images_left[self.index]
         
         # Check collision - YET TO BE IMPLEMENTED
         
