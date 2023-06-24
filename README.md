@@ -12,6 +12,7 @@ The directories can all be found in the relevant folders since creating new repo
 ### - Y9T2 Attempt 2 (INCOMPLETE) COME BACK AT 11AM AND IT'LL BE DONE
 - This is a base engine for a basic platformer game, and additional sections are already preloaded for expansion like forward and back animations. Further terrain blocks are also provided in the assets folder, with the terrain generation and rendering code being modular and easily adaptable to new iterations of the game. Take this game as a baseline for expansion. I might come back and update this game with additional level expansions and textures, as well as additional player features. The entire folder must be downloaded along with pygame to run this game.
 - Like all things, if it's broken, poke me on repo issues and I'll get around to it one day
+- I FOLLOWED A TUTORIAL DOING THIS, BUT IT DOESN'T MEAN I DON'T UNDERSTAND THE CODE. THE TUTORIAL CAN BE FOUND HERE: https://www.youtube.com/playlist?list=PLjcN1EyupaQnHM1I9SmiXfbT6aG4ezUvu
     - Assets (surely I don't need to tell you what these are)
         - Too many to list
     - main.py (mainframe)
